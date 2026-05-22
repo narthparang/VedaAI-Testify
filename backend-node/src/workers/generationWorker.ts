@@ -1,6 +1,6 @@
 import { Worker, Job } from 'bullmq';
 import { GENERATION_QUEUE } from '../config/queue';
-import { getRedisClient } from '../config/redis';
+import { createRedisConnection } from '../config/redis';
 import { Assignment } from '../models/Assignment';
 import { GeneratedPaper } from '../models/GeneratedPaper';
 import { generatePaper } from '../services/aiService';
@@ -63,7 +63,7 @@ export function startWorker(): Worker<GenerationJobData> {
   const worker = new Worker<GenerationJobData>(
     GENERATION_QUEUE,
     processJob,
-    { connection: getRedisClient() }
+    { connection: createRedisConnection() }
   );
 
   worker.on('completed', (job) => {
