@@ -6,6 +6,9 @@ function buildOptions(url: string) {
     maxRetriesPerRequest: null,
     enableReadyCheck: false,
     tls: isTLS ? { rejectUnauthorized: false } : undefined,
+    keepAlive: 10000,
+    connectTimeout: 10000,
+    retryStrategy: (times: number) => Math.min(times * 200, 2000),
   };
 }
 
